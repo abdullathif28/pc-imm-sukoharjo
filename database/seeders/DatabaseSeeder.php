@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             BidangSeeder::class,
             UserSeeder::class,
             KontenSeeder::class,
+            MasterDataSeeder::class, // BARU: pengurus, komisariat, timeline, settings
         ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Konten;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -12,13 +13,25 @@ class DashboardController extends Controller
         $user   = auth()->user();
         $bidang = $user->bidang;
 
+        // FIX: Gabungkan 6 query COUNT menjadi 1 query
+        $statsRaw = Konten::where('bidang_id', $user->bidang_id)
+            ->selectRaw("
+                COUNT(*) as total_konten,
+                SUM(jenis = 'berita') as total_berita,
+                SUM(jenis = 'kegiatan') as total_kegiatan,
+                SUM(jenis = 'program_kerja') as total_proker,
+                SUM(status = 'published') as published,
+                SUM(status = 'draft') as total_draft
+            ")
+            ->first();
+
         $stats = [
-            'total_konten'    => Konten::where('bidang_id', $user->bidang_id)->count(),
-            'total_berita'    => Konten::where('bidang_id', $user->bidang_id)->where('jenis', 'berita')->count(),
-            'total_kegiatan'  => Konten::where('bidang_id', $user->bidang_id)->where('jenis', 'kegiatan')->count(),
-            'total_proker'    => Konten::where('bidang_id', $user->bidang_id)->where('jenis', 'program_kerja')->count(),
-            'published'       => Konten::where('bidang_id', $user->bidang_id)->where('status', 'published')->count(),
-            'total_draft'     => Konten::where('bidang_id', $user->bidang_id)->where('status', 'draft')->count(),
+            'total_konten'   => $statsRaw->total_konten   ?? 0,
+            'total_berita'   => $statsRaw->total_berita   ?? 0,
+            'total_kegiatan' => $statsRaw->total_kegiatan ?? 0,
+            'total_proker'   => $statsRaw->total_proker   ?? 0,
+            'published'      => $statsRaw->published      ?? 0,
+            'total_draft'    => $statsRaw->total_draft    ?? 0,
         ];
 
         $recentKonten = Konten::where('bidang_id', $user->bidang_id)

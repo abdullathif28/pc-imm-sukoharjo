@@ -5,45 +5,45 @@
 
 <div class="row g-3 mb-4">
     <div class="col-sm-6 col-xl-3">
-        <div class="card stat-card p-3">
+        <div class="card stat-card p-4">
             <div class="d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:#dbeafe;color:#1d4ed8;"><i class="bi bi-diagram-3-fill"></i></div>
+                <div class="stat-icon shadow-sm" style="background: rgba(198, 40, 40, 0.1); color: var(--imm-red);"><i class="bi bi-diagram-3-fill"></i></div>
                 <div>
-                    <div class="fw-800" style="font-size:1.8rem;font-weight:800;color:#1B2E4B;line-height:1;"><?php echo e($stats['total_bidang']); ?></div>
-                    <div class="text-muted small">Total Bidang</div>
+                    <div class="fw-bold" style="font-size:1.8rem; color: var(--imm-red-dark); line-height:1;"><?php echo e($stats['total_bidang']); ?></div>
+                    <div class="text-muted small fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.7rem;">Total Bidang</div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-sm-6 col-xl-3">
-        <div class="card stat-card p-3">
+        <div class="card stat-card p-4">
             <div class="d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:#d1fae5;color:#065f46;"><i class="bi bi-people-fill"></i></div>
+                <div class="stat-icon shadow-sm" style="background: rgba(251, 192, 45, 0.15); color: var(--imm-yellow);"><i class="bi bi-people-fill"></i></div>
                 <div>
-                    <div class="fw-800" style="font-size:1.8rem;font-weight:800;color:#1B2E4B;line-height:1;"><?php echo e($stats['total_admin']); ?></div>
-                    <div class="text-muted small">Total Admin</div>
+                    <div class="fw-bold" style="font-size:1.8rem; color: var(--imm-red-dark); line-height:1;"><?php echo e($stats['total_admin']); ?></div>
+                    <div class="text-muted small fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.7rem;">Total Admin</div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-sm-6 col-xl-3">
-        <div class="card stat-card p-3">
+        <div class="card stat-card p-4">
             <div class="d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:#fef3c7;color:#92400e;"><i class="bi bi-file-earmark-text-fill"></i></div>
+                <div class="stat-icon shadow-sm" style="background: rgba(198, 40, 40, 0.1); color: var(--imm-red);"><i class="bi bi-file-earmark-text-fill"></i></div>
                 <div>
-                    <div class="fw-800" style="font-size:1.8rem;font-weight:800;color:#1B2E4B;line-height:1;"><?php echo e($stats['total_konten']); ?></div>
-                    <div class="text-muted small">Total Konten</div>
+                    <div class="fw-bold" style="font-size:1.8rem; color: var(--imm-red-dark); line-height:1;"><?php echo e($stats['total_konten']); ?></div>
+                    <div class="text-muted small fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.7rem;">Total Konten</div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-sm-6 col-xl-3">
-        <div class="card stat-card p-3">
+        <div class="card stat-card p-4">
             <div class="d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:#f0fdf4;color:#16a34a;"><i class="bi bi-check-circle-fill"></i></div>
+                <div class="stat-icon shadow-sm" style="background: rgba(251, 192, 45, 0.15); color: var(--imm-yellow);"><i class="bi bi-check-circle-fill"></i></div>
                 <div>
-                    <div class="fw-800" style="font-size:1.8rem;font-weight:800;color:#1B2E4B;line-height:1;"><?php echo e($stats['total_published']); ?></div>
-                    <div class="text-muted small">Dipublikasikan</div>
+                    <div class="fw-bold" style="font-size:1.8rem; color: var(--imm-red-dark); line-height:1;"><?php echo e($stats['total_published']); ?></div>
+                    <div class="text-muted small fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.7rem;">Published</div>
                 </div>
             </div>
         </div>
@@ -54,9 +54,9 @@
     
     <div class="col-lg-8">
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 fw-700" style="font-weight:700;">Konten Terbaru</h6>
-                <a href="<?php echo e(route('super-admin.konten.index')); ?>" class="btn btn-sm btn-outline-primary" style="border-radius:6px;">Lihat Semua</a>
+            <div class="card-header d-flex justify-content-between align-items-center py-3">
+                <h6 class="mb-0 fw-bold" style="color: var(--imm-red-dark);"><i class="bi bi-clock-history me-2"></i>Konten Terbaru</h6>
+                <a href="<?php echo e(route('super-admin.konten.index')); ?>" class="btn btn-sm btn-outline-imm" style="font-size: 0.75rem;">Lihat Semua</a>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -105,12 +105,12 @@
                             <span style="font-size:0.7rem;font-weight:800;color:<?php echo e($b->warna); ?>;"><?php echo e(substr($b->singkatan ?? $b->nama, 0, 2)); ?></span>
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
-                            <div class="fw-600 small text-truncate" style="font-weight:600;color:#1B2E4B;"><?php echo e($b->singkatan ?? $b->nama); ?></div>
-                            <div class="progress mt-1" style="height:4px;">
-                                <div class="progress-bar" style="width:<?php echo e($bidangs->max('kontens_count') > 0 ? ($b->kontens_count / $bidangs->max('kontens_count') * 100) : 0); ?>%;background:<?php echo e($b->warna); ?>;"></div>
+                            <div class="fw-bold small text-truncate mb-1" style="color: var(--imm-dark);"><?php echo e($b->singkatan ?? $b->nama); ?></div>
+                            <div class="progress mt-1" style="height:6px; background: #f1f5f9; border-radius: 10px;">
+                                <div class="progress-bar" style="width:<?php echo e($bidangs->max('kontens_count') > 0 ? ($b->kontens_count / $bidangs->max('kontens_count') * 100) : 0); ?>%; background: linear-gradient(90deg, var(--imm-red), var(--imm-red-dark)); border-radius: 10px;"></div>
                             </div>
                         </div>
-                        <div class="fw-700 small flex-shrink-0" style="font-weight:700;color:<?php echo e($b->warna); ?>;"><?php echo e($b->kontens_count); ?></div>
+                        <div class="fw-bold small flex-shrink-0" style="color: var(--imm-red);"><?php echo e($b->kontens_count); ?></div>
                     </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
@@ -118,11 +118,11 @@
 
         <div class="card mt-3">
             <div class="card-body">
-                <h6 class="fw-700 mb-3" style="font-weight:700;">Aksi Cepat</h6>
+                <h6 class="fw-bold mb-4" style="color: var(--imm-dark);">AKSI CEPAT</h6>
                 <div class="d-grid gap-2">
                     <a href="<?php echo e(route('super-admin.konten.create')); ?>" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg me-2"></i>Tambah Konten</a>
-                    <a href="<?php echo e(route('super-admin.bidang.create')); ?>" class="btn btn-outline-primary btn-sm"><i class="bi bi-plus-lg me-2"></i>Tambah Bidang</a>
-                    <a href="<?php echo e(route('super-admin.admin.create')); ?>" class="btn btn-outline-secondary btn-sm"><i class="bi bi-person-plus me-2"></i>Tambah Admin</a>
+                    <a href="<?php echo e(route('super-admin.bidang.create')); ?>" class="btn btn-warning btn-sm"><i class="bi bi-plus-lg me-2"></i>Tambah Bidang</a>
+                    <a href="<?php echo e(route('super-admin.admin.create')); ?>" class="btn btn-outline-imm btn-sm"><i class="bi bi-person-plus-fill me-2"></i>Tambah Admin</a>
                 </div>
             </div>
         </div>

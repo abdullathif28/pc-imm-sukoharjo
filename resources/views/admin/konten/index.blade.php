@@ -67,7 +67,7 @@
                                     <img src="{{ asset('storage/'.$konten->thumbnail) }}" class="rounded" width="50" height="50" style="object-fit:cover">
                                 @else
                                     <div class="rounded d-flex align-items-center justify-content-center text-white"
-                                        style="width:50px;height:50px;background:{{ auth()->user()->bidang->warna ?? '#6c757d' }}">
+                                        style="width:50px;height:50px;background:{{ $bidangWarna }}">
                                         <i class="bi bi-image"></i>
                                     </div>
                                 @endif

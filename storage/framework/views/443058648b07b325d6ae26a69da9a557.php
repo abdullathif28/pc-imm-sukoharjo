@@ -2,13 +2,13 @@
 <?php $__env->startSection('page-title', 'Manajemen Admin'); ?>
 
 <?php $__env->startSection('content'); ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4" data-aos="fade-right">
     <div>
-        <h5 class="fw-700 mb-1" style="font-weight:700;">Daftar Admin Bidang</h5>
-        <p class="text-muted small mb-0">Total: <?php echo e($admins->total()); ?> admin</p>
+        <h5 class="fw-bold mb-1" style="color: var(--imm-red-dark); letter-spacing: -0.5px;">Daftar Akun Administrator</h5>
+        <p class="text-muted small mb-0">Manajemen akses kontrol untuk admin bidang</p>
     </div>
-    <a href="<?php echo e(route('super-admin.admin.create')); ?>" class="btn btn-primary btn-sm">
-        <i class="bi bi-person-plus me-1"></i>Tambah Admin
+    <a href="<?php echo e(route('super-admin.admin.create')); ?>" class="btn btn-primary shadow-sm">
+        <i class="bi bi-person-plus-fill me-2"></i>Tambah Admin
     </a>
 </div>
 
@@ -28,8 +28,8 @@
                 <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari nama atau email..." value="<?php echo e(request('search')); ?>">
             </div>
             <div class="col-md-3 d-flex gap-2">
-                <button type="submit" class="btn btn-primary btn-sm flex-grow-1"><i class="bi bi-search"></i></button>
-                <a href="<?php echo e(route('super-admin.admin.index')); ?>" class="btn btn-outline-secondary btn-sm"><i class="bi bi-x"></i></a>
+                <button type="submit" class="btn btn-warning btn-sm flex-grow-1 shadow-sm"><i class="bi bi-search me-1"></i>Cari</button>
+                <a href="<?php echo e(route('super-admin.admin.index')); ?>" class="btn btn-outline-secondary btn-sm shadow-sm"><i class="bi bi-arrow-clockwise"></i></a>
             </div>
         </form>
     </div>
@@ -44,20 +44,26 @@
                     <?php $__empty_1 = true; $__currentLoopData = $admins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $admin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <tr>
                             <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <div style="width:36px;height:36px;border-radius:50%;background:#e9ecef;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;color:#6c757d;">
-                                        <?php echo e(strtoupper(substr($admin->name, 0, 2))); ?>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="shadow-sm" style="width:38px; height:38px; border-radius:12px; background: rgba(198, 40, 40, 0.1); color: var(--imm-red); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.85rem;">
+                                        <?php echo e(strtoupper(substr($admin->name, 0, 1))); ?>
 
                                     </div>
-                                    <span class="fw-600 small" style="font-weight:600;"><?php echo e($admin->name); ?></span>
+                                    <div>
+                                        <div class="fw-bold small" style="color: var(--imm-dark);"><?php echo e($admin->name); ?></div>
+                                        <div class="text-muted" style="font-size:0.7rem;">ID: #<?php echo e($admin->id); ?></div>
+                                    </div>
                                 </div>
                             </td>
                             <td class="text-muted small"><?php echo e($admin->email); ?></td>
                             <td>
                                 <?php if($admin->bidang): ?>
-                                    <span class="badge px-2" style="background:<?php echo e($admin->bidang->warna); ?>20;color:<?php echo e($admin->bidang->warna); ?>;font-size:0.7rem;"><?php echo e($admin->bidang->singkatan ?? $admin->bidang->nama); ?></span>
+                                    <span class="badge px-3 py-2" style="background: rgba(251, 192, 45, 0.15); color: var(--imm-red); font-weight:700; font-size: 0.7rem; border: 1px solid rgba(251, 192, 45, 0.2);">
+                                        <?php echo e($admin->bidang->singkatan); ?>
+
+                                    </span>
                                 <?php else: ?>
-                                    <span class="text-muted small">-</span>
+                                    <span class="badge bg-light text-muted border px-3 py-2" style="font-size: 0.7rem;">Root Admin</span>
                                 <?php endif; ?>
                             </td>
                             <td>

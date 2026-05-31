@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Controllers\SuperAdmin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Setting;
+use Illuminate\Http\Request;
+
+class SettingController extends Controller
+{
+    public function index()
+    {
+        $settings = Setting::orderBy('group')->orderBy('id')->get()->groupBy('group');
+        return view('super-admin.settings.index', compact('settings'));
+    }
+
+    public function update(Request $request)
+    {
+        $data = $request->except(['_token', '_method']);
+
+        foreach ($data as $key => $value) {
+            Setting::where('key', $key)->update(['value' => $value]);
+        }
+
+        return redirect()->route('super-admin.settings.index')
+            ->with('success', 'Pengaturan berhasil disimpan.');
+    }
+}

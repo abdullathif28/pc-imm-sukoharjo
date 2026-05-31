@@ -2,13 +2,13 @@
 <?php $__env->startSection('page-title', 'Manajemen Bidang'); ?>
 
 <?php $__env->startSection('content'); ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4" data-aos="fade-right">
     <div>
-        <h5 class="fw-700 mb-1" style="font-weight:700;">Daftar Bidang</h5>
-        <p class="text-muted small mb-0">Total: <?php echo e($bidangs->total()); ?> bidang</p>
+        <h5 class="fw-bold mb-1" style="color: var(--imm-red-dark); letter-spacing: -0.5px;">Daftar Bidang Organisasi</h5>
+        <p class="text-muted small mb-0">Mengelola struktur bidang kerja PC IMM Sukoharjo</p>
     </div>
-    <a href="<?php echo e(route('super-admin.bidang.create')); ?>" class="btn btn-primary btn-sm">
-        <i class="bi bi-plus-lg me-1"></i>Tambah Bidang
+    <a href="<?php echo e(route('super-admin.bidang.create')); ?>" class="btn btn-primary shadow-sm">
+        <i class="bi bi-plus-circle-fill me-2"></i>Tambah Bidang
     </a>
 </div>
 
@@ -24,20 +24,25 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center gap-3">
-                                    <div style="width:40px;height:40px;border-radius:10px;background:<?php echo e($b->warna); ?>20;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                        <span style="font-size:0.75rem;font-weight:800;color:<?php echo e($b->warna); ?>;"><?php echo e(substr($b->singkatan ?? $b->nama, 0, 2)); ?></span>
+                                    <div class="shadow-sm" style="width:42px;height:42px;border-radius:12px;background: rgba(251, 192, 45, 0.15); color: var(--imm-yellow); display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                        <span style="font-size:0.85rem;font-weight:800;">
+                                            <?php
+                                                $icons = ['🏛️','🔬','🕌','🤝','⚖️','📢'];
+                                                echo $icons[$loop->index % count($icons)];
+                                            ?>
+                                        </span>
                                     </div>
                                     <div>
-                                        <div class="fw-600 small" style="font-weight:600;"><?php echo e($b->nama); ?></div>
-                                        <div class="text-muted" style="font-size:0.7rem;">Urutan: <?php echo e($b->urutan); ?></div>
+                                        <div class="fw-bold small" style="color: var(--imm-dark);"><?php echo e($b->nama); ?></div>
+                                        <div class="text-muted" style="font-size:0.75rem;">Urutan Tampil: <?php echo e($b->urutan); ?></div>
                                     </div>
                                 </div>
                             </td>
-                            <td><span class="badge px-2 py-1" style="background:<?php echo e($b->warna); ?>20;color:<?php echo e($b->warna); ?>;font-weight:700;"><?php echo e($b->singkatan); ?></span></td>
-                            <td><span class="badge bg-light text-dark"><?php echo e($b->users_count); ?> admin</span></td>
-                            <td><span class="badge bg-light text-dark"><?php echo e($b->kontens_count); ?> konten</span></td>
+                             <td><span class="badge px-3 py-2" style="background: rgba(198, 40, 40, 0.1); color: var(--imm-red); font-weight:800;"><?php echo e($b->singkatan); ?></span></td>
+                            <td><span class="badge bg-light text-dark border px-2 py-1"><i class="bi bi-people me-1"></i><?php echo e($b->users_count); ?> Admin</span></td>
+                            <td><span class="badge bg-light text-dark border px-2 py-1"><i class="bi bi-journal-text me-1"></i><?php echo e($b->kontens_count); ?> Konten</span></td>
                             <td>
-                                <span class="badge <?php echo e($b->is_active ? 'bg-success' : 'bg-secondary'); ?> px-2">
+                                <span class="badge <?php echo e($b->is_active ? 'bg-success' : 'bg-secondary'); ?> px-3 py-1 shadow-sm" style="font-size: 0.7rem;">
                                     <?php echo e($b->is_active ? 'Aktif' : 'Nonaktif'); ?>
 
                                 </span>

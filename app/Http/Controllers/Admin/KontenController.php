@@ -14,7 +14,8 @@ class KontenController extends Controller
     public function index(Request $request)
     {
         $user  = auth()->user();
-        $query = Konten::where('bidang_id', $user->bidang_id);
+        // FIX N+1: eager load bidang sekalian
+        $query = Konten::with('bidang')->where('bidang_id', $user->bidang_id);
 
         if ($request->filled('jenis'))  $query->where('jenis', $request->jenis);
         if ($request->filled('status')) $query->where('status', $request->status);
@@ -22,9 +23,10 @@ class KontenController extends Controller
             $query->where('judul', 'like', '%' . $request->search . '%');
         }
 
-        $kontens = $query->latest()->paginate(12)->withQueryString();
+        $kontens      = $query->latest()->paginate(12)->withQueryString();
+        $bidangWarna  = $user->bidang?->warna ?? '#C62828'; // FIX N+1: pass sekali
 
-        return view('admin.konten.index', compact('kontens'));
+        return view('admin.konten.index', compact('kontens', 'bidangWarna'));
     }
 
     public function create()
@@ -36,26 +38,27 @@ class KontenController extends Controller
     {
         $user      = auth()->user();
         $validated = $request->validate([
-            'jenis'          => 'required|in:berita,kegiatan,program_kerja',
-            'judul'          => 'required|string|max:255',
-            'ringkasan'      => 'nullable|string|max:500',
-            'isi'            => 'required|string',
-            'tanggal_mulai'  => 'nullable|date',
-            'tanggal_selesai'=> 'nullable|date|after_or_equal:tanggal_mulai',
-            'lokasi'         => 'nullable|string|max:255',
-            'status'         => 'required|in:draft,published',
-            'thumbnail'      => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
-            'medias.*'       => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,mp4,avi,mov|max:51200',
+            'jenis'           => 'required|in:berita,kegiatan,program_kerja',
+            'judul'           => 'required|string|max:255',
+            'ringkasan'       => 'nullable|string|max:500',
+            'isi'             => 'required|string',
+            'tanggal_mulai'   => 'nullable|date',
+            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
+            'lokasi'          => 'nullable|string|max:255',
+            'status'          => 'required|in:draft,published',
+            'thumbnail'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'medias.*'        => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,mp4,avi,mov|max:51200',
         ]);
 
         if ($request->hasFile('thumbnail')) {
             $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
-        $validated['bidang_id']  = $user->bidang_id;
-        $validated['user_id']    = $user->id;
-        $validated['is_featured'] = $request->boolean('is_featured');
-        $validated['slug']       = Str::slug($validated['judul']) . '-' . uniqid();
+        $validated['bidang_id']   = $user->bidang_id;
+        $validated['user_id']     = $user->id;
+        // FIX: is_featured hanya bisa di-set oleh super_admin
+        $validated['is_featured'] = false;
+        $validated['slug']        = Str::slug($validated['judul']) . '-' . uniqid();
 
         $konten = Konten::create($validated);
 
@@ -93,16 +96,16 @@ class KontenController extends Controller
         $this->authorizeKonten($konten);
 
         $validated = $request->validate([
-            'jenis'          => 'required|in:berita,kegiatan,program_kerja',
-            'judul'          => 'required|string|max:255',
-            'ringkasan'      => 'nullable|string|max:500',
-            'isi'            => 'required|string',
-            'tanggal_mulai'  => 'nullable|date',
-            'tanggal_selesai'=> 'nullable|date|after_or_equal:tanggal_mulai',
-            'lokasi'         => 'nullable|string|max:255',
-            'status'         => 'required|in:draft,published',
-            'thumbnail'      => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
-            'medias.*'       => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,mp4,avi,mov|max:51200',
+            'jenis'           => 'required|in:berita,kegiatan,program_kerja',
+            'judul'           => 'required|string|max:255',
+            'ringkasan'       => 'nullable|string|max:500',
+            'isi'             => 'required|string',
+            'tanggal_mulai'   => 'nullable|date',
+            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
+            'lokasi'          => 'nullable|string|max:255',
+            'status'          => 'required|in:draft,published',
+            'thumbnail'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'medias.*'        => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,mp4,avi,mov|max:51200',
         ]);
 
         if ($request->hasFile('thumbnail')) {
@@ -110,7 +113,9 @@ class KontenController extends Controller
             $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
-        $validated['is_featured'] = $request->boolean('is_featured');
+        // FIX: is_featured hanya bisa diubah oleh super_admin
+        $validated['is_featured'] = $konten->is_featured;
+
         $konten->update($validated);
 
         if ($request->hasFile('medias')) {
