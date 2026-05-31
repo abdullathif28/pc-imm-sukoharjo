@@ -74,7 +74,8 @@ Route::prefix('super-admin')
         Route::resource('admin',   SuperAdminAdmin::class);
 
         // BARU: Pengurus, Komisariat, Timeline
-        Route::resource('pengurus',   PengurusController::class);
+        Route::resource('pengurus', PengurusController::class)
+            ->parameters(['pengurus' => 'pengurus']);
         Route::resource('komisariat', KomisariatController::class);
         Route::resource('timeline',   TimelineController::class);
 

@@ -14,7 +14,7 @@
 
 <div class="card border-0 shadow-sm">
     <div class="card-body p-4">
-        <form action="{{ route('super-admin.pengurus.update', $pengurus) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('super-admin.pengurus.update', ['pengurus' => $pengurus->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf @method('PUT')
             <div class="row g-3">
                 <div class="col-md-6">
